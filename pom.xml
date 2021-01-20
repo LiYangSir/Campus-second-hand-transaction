@@ -15,6 +15,7 @@
 		<module>campus-transaction-ware</module>
 		<module>campus-transaction-coupon</module>
 		<module>campus-transaction-member</module>
-	</modules>
+        <module>Campus-Transaction-Common</module>
+    </modules>
 
 </project>
