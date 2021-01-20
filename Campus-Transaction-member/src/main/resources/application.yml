@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    username: root
+    password: LY0115..
+    url: jdbc:mysql://192.168.1.115:3307/campus_transaction_ums?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 8000
