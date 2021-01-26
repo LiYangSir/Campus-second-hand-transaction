@@ -3,13 +3,18 @@ package com.quguai.campustransaction.member;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
-@MapperScan("com.quguai.campustransaction.member.dao")
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.quguai.campustransaction.member.feign")
 @SpringBootApplication
 public class CampusTransactionMemberApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CampusTransactionMemberApplication.class, args);
 	}
-
 }

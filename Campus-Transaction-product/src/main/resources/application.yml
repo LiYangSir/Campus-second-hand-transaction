@@ -4,10 +4,21 @@ spring:
     password: LY0115..
     url: jdbc:mysql://192.168.1.115:3307/campus_transaction_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.115:8848
+  application:
+    name: Campus-Transaction-product
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
+      logic-not-delete-value: 0
+      logic-delete-value: 1
 server:
   port: 10000
+
