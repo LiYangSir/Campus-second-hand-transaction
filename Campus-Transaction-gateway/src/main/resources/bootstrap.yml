@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.115:8848
+        namespace: 133c8c9a-56e2-45e3-be95-39169bc05374
+
+
+  application:
+    name: Campus-Transaction-gateway

@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Campus-Transaction-coupon
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.115:8848
+        file-extension: yaml
+        namespace: e5f6c133-6070-4f46-9e4f-84b32ca64d82
+        group: dev
+        extension-configs:
+          - dataId: datesource.yaml
+            group: dev
+            refresh: true
+          - dataId: mybatis.yaml
+            group: dev
+            refresh: true
+          - dataId: other.yaml
+            group: dev
+            refresh: true
+
+
+server:
+  port: 7000
