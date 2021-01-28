@@ -5,24 +5,53 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quguai.campustransaction.product.dao.CategoryDao;
 import com.quguai.campustransaction.product.entity.CategoryEntity;
+import com.quguai.campustransaction.product.service.CategoryBrandRelationService;
 import com.quguai.campustransaction.product.service.CategoryService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
+
     @Override
     public void removeMenuByIds(List<Long> asList) {
         // TODO 检查当前删除的菜单是否被别的地方所引用
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public List<Long> findCatelogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        CategoryEntity entity = this.getById(catelogId);
+        paths.add(entity.getCatId());
+        while (entity.getParentCid() != 0){
+            paths.add(entity.getParentCid());
+            entity = this.getById(entity.getParentCid());
+        }
+        Collections.reverse(paths);
+        return paths;
+    }
+
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        if (StringUtils.hasLength(category.getName())) {
+            categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+            // TODO 更新其他表中数据
+        }
     }
 
     @Override

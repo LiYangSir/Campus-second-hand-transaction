@@ -2,18 +2,35 @@ spring:
   cloud:
     gateway:
       routes:
+        #   product
         - id: product_route
           uri: lb://Campus-Transaction-product
           predicates:
             - Path=/api/product/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
+        #   third_party
         - id: third_patry_route
           uri: lb://Campus-Transaction-third-party
           predicates:
             - Path=/api/thirdparty/**
           filters:
             - RewritePath=/api/thirdparty(?<segment>/?.*), $\{segment}
+        #   member
+        - id: member_route
+          uri: lb://Campus-Transaction-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+      #   coupon
+        - id: coupon_route
+          uri: lb://Campus-Transaction-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
         - id: admin_route
           uri: lb://renren-fast
           predicates:

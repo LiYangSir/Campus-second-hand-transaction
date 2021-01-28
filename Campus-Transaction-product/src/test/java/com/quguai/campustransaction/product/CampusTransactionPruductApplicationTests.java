@@ -1,8 +1,12 @@
 package com.quguai.campustransaction.product;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.quguai.campustransaction.product.entity.BrandEntity;
+import com.quguai.campustransaction.product.service.AttrGroupService;
 import com.quguai.campustransaction.product.service.BrandService;
+import com.quguai.campustransaction.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +23,14 @@ class CampusTransactionPruductApplicationTests {
     @Autowired
     private BrandService service;
 
+    @Autowired
+    private BaseMapper<BrandEntity> baseMapper;
+
 //    @Autowired
 //    private OSSClient ossClient;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Test
     public void testUpload() throws FileNotFoundException {
@@ -48,6 +58,13 @@ class CampusTransactionPruductApplicationTests {
         brandEntity.setName("huawei");
         service.save(brandEntity);
         log.info("保存成功");
+    }
+
+    @Test
+    void test() {
+//       categoryService.findCatelogPath(225L).forEach(System.out::println);
+        Page<BrandEntity> pp = baseMapper.selectPage(new Page<>(1, 10), null);
+        System.out.println();
     }
 
 }

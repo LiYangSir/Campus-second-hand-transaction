@@ -26,9 +26,9 @@ public class CampusTransactionExceptionAdvice {
         return R.error(BizCodeEnum.VALID_EXCEPTION).put("data", map);
     }
 
-    @ExceptionHandler(Throwable.class)
-    public R handleException(Throwable e) {
-        log.error("任意出现错误；{}，异常类型：{}", e.getMessage(), e.getClass());
-        return R.error(BizCodeEnum.UNKNOWN_EXCEPTION);
-    }
+//    @ExceptionHandler(Throwable.class)
+//    public R handleException(Throwable e) {
+//        log.error("任意出现错误；{}，异常类型：{}", e.getMessage(), e.getClass());
+//        return R.error(BizCodeEnum.UNKNOWN_EXCEPTION);
+//    }
 }
