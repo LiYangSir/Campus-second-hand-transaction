@@ -1,6 +1,7 @@
 package com.quguai.campustransaction.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quguai.common.to.SkuReductionTo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.campustransaction.coupon.entity.SkuFullReductionEntity;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 

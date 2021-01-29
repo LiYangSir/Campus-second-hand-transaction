@@ -1,5 +1,6 @@
 package com.quguai.campustransaction.product.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -19,14 +20,8 @@ import lombok.Data;
 public class SpuInfoDescEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * ??Ʒid
-	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long spuId;
-	/**
-	 * ??Ʒ???
-	 */
 	private String decript;
 
 }

@@ -9,7 +9,9 @@ spring:
       discovery:
         server-addr: 192.168.1.115:8848
   application:
-    name: Campus-Transaction-member
+    name: Campus-Transaction-ware
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

@@ -7,6 +7,7 @@ import com.quguai.campustransaction.product.service.AttrGroupService;
 import com.quguai.campustransaction.product.service.AttrService;
 import com.quguai.campustransaction.product.service.CategoryService;
 import com.quguai.campustransaction.product.vo.AttrGroupRelationVO;
+import com.quguai.campustransaction.product.vo.AttrGroupWithAttrsVo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class AttrGroupController {
     public R addRelation(@RequestBody List<AttrGroupRelationVO> vos) {
         relationService.saveBatch(vos);
         return R.ok();
+    }
+
+    @GetMapping("{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId") Long catelogId) {
+        List<AttrGroupWithAttrsVo> vos = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().put("data", vos);
     }
 
     @GetMapping("{attrgroupId}/attr/relation")

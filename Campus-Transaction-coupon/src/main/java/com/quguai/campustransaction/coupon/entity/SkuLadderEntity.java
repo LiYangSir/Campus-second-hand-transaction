@@ -20,30 +20,14 @@ import lombok.Data;
 public class SkuLadderEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+
 	@TableId
 	private Long id;
-	/**
-	 * spu_id
-	 */
+
 	private Long skuId;
-	/**
-	 * ?????
-	 */
 	private Integer fullCount;
-	/**
-	 * ?????
-	 */
 	private BigDecimal discount;
-	/**
-	 * ?ۺ
-	 */
 	private BigDecimal price;
-	/**
-	 * ?Ƿ??????????Ż?[0-???ɵ??ӣ?1-?ɵ???]
-	 */
 	private Integer addOther;
 
 }

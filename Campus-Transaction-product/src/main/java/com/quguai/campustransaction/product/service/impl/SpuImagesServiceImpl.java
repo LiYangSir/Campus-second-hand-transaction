@@ -1,7 +1,11 @@
 package com.quguai.campustransaction.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +28,19 @@ public class SpuImagesServiceImpl extends ServiceImpl<SpuImagesDao, SpuImagesEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveImages(Long id, List<String> images) {
+        if (images != null && images.size() != 0) {
+            List<SpuImagesEntity> collect = images.stream().map(s -> {
+                SpuImagesEntity spuImagesEntity = new SpuImagesEntity();
+                spuImagesEntity.setImgUrl(s);
+                spuImagesEntity.setSpuId(id);
+                return spuImagesEntity;
+            }).collect(Collectors.toList());
+            this.saveBatch(collect);
+        }
     }
 
 }

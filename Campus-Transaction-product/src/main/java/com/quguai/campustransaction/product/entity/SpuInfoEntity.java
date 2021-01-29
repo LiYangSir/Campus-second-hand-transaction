@@ -1,5 +1,7 @@
 package com.quguai.campustransaction.product.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -20,42 +22,20 @@ import lombok.Data;
 public class SpuInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * ??Ʒid
-	 */
+
 	@TableId
 	private Long id;
-	/**
-	 * ??Ʒ?
-	 */
+
 	private String spuName;
-	/**
-	 * ??Ʒ???
-	 */
 	private String spuDescription;
-	/**
-	 * ????????id
-	 */
 	private Long catalogId;
-	/**
-	 * Ʒ??id
-	 */
 	private Long brandId;
-	/**
-	 * 
-	 */
 	private BigDecimal weight;
-	/**
-	 * ?ϼ?״̬[0 - ?¼ܣ?1 - ?ϼ?]
-	 */
 	private Integer publishStatus;
-	/**
-	 * 
-	 */
+
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
-	/**
-	 * 
-	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

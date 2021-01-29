@@ -1,5 +1,7 @@
 package com.quguai.campustransaction.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -25,41 +27,19 @@ public class PurchaseEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
-	/**
-	 * 
-	 */
+
 	private Long assigneeId;
-	/**
-	 * 
-	 */
 	private String assigneeName;
-	/**
-	 * 
-	 */
 	private String phone;
-	/**
-	 * 
-	 */
 	private Integer priority;
-	/**
-	 * 
-	 */
 	private Integer status;
-	/**
-	 * 
-	 */
 	private Long wareId;
-	/**
-	 * 
-	 */
 	private BigDecimal amount;
-	/**
-	 * 
-	 */
+
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
-	/**
-	 * 
-	 */
+
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

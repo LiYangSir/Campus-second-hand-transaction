@@ -1,7 +1,9 @@
 package com.quguai.campustransaction.product.controller;
 
 import com.quguai.campustransaction.product.entity.AttrEntity;
+import com.quguai.campustransaction.product.entity.ProductAttrValueEntity;
 import com.quguai.campustransaction.product.service.AttrService;
+import com.quguai.campustransaction.product.service.ProductAttrValueService;
 import com.quguai.campustransaction.product.vo.AttrResponseVo;
 import com.quguai.campustransaction.product.vo.AttrVo;
 import com.quguai.common.utils.PageUtils;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,8 +26,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/attr")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrList(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> entityList = productAttrValueService.getBaseAttrList(spuId);
+        return R.ok().put("data", entityList);
+    }
+
 
     @GetMapping("/{attrType}/list/{catelogId}")
     public R baseAttrList(@RequestParam Map<String, Object> params, @PathVariable("attrType")String attrType, @PathVariable("catelogId") Long catelogId) {
@@ -61,6 +76,14 @@ public class AttrController {
     //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrVo attr) {
         attrService.updateAttr(attr);
+
+        return R.ok();
+    }
+
+    @PostMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValueEntity> valueEntities) {
+        productAttrValueService.updateSpuAttr(spuId, valueEntities);
 
         return R.ok();
     }

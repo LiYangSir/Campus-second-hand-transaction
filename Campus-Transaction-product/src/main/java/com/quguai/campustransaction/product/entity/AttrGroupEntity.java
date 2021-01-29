@@ -23,30 +23,13 @@ import sun.rmi.runtime.Log;
 public class AttrGroupEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * ????id
-	 */
+
 	@TableId
 	private Long attrGroupId;
-	/**
-	 * ???
-	 */
 	private String attrGroupName;
-	/**
-	 * ???
-	 */
 	private Integer sort;
-	/**
-	 * ???
-	 */
 	private String descript;
-	/**
-	 * ??ͼ?
-	 */
 	private String icon;
-	/**
-	 * ????????id
-	 */
 	private Long catelogId;
 
 	@TableField(exist = false)

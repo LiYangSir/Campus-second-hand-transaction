@@ -3,6 +3,7 @@ package com.quguai.campustransaction.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quguai.campustransaction.product.entity.AttrEntity;
 import com.quguai.campustransaction.product.vo.AttrGroupRelationVO;
+import com.quguai.campustransaction.product.vo.AttrGroupWithAttrsVo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.campustransaction.product.entity.AttrGroupEntity;
 
@@ -23,5 +24,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     PageUtils queryPage(Map<String, Object> params, Long categoryId);
 
     void deleteRelation(List<AttrGroupRelationVO> vos);
+
+    List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId);
 }
 

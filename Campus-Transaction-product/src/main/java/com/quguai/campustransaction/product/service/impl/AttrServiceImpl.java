@@ -157,7 +157,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         if (relationEntities != null){
             collect = relationEntities.stream().map(AttrAttrgroupRelationEntity::getAttrId).collect(Collectors.toList());
         }
-        return this.listByIds(collect);
+
+        return collect.size() != 0 ? this.listByIds(collect) : null;
     }
 
 

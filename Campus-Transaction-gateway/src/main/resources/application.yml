@@ -16,7 +16,7 @@ spring:
             - Path=/api/thirdparty/**
           filters:
             - RewritePath=/api/thirdparty(?<segment>/?.*), $\{segment}
-        #   member
+      #   member
         - id: member_route
           uri: lb://Campus-Transaction-member
           predicates:
@@ -30,7 +30,13 @@ spring:
             - Path=/api/coupon/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
-
+      #   coupon
+        - id: ware_route
+          uri: lb://Campus-Transaction-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
         - id: admin_route
           uri: lb://renren-fast
           predicates:

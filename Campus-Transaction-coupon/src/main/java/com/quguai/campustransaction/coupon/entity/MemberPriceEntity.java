@@ -20,30 +20,14 @@ import lombok.Data;
 public class MemberPriceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+
 	@TableId
 	private Long id;
-	/**
-	 * sku_id
-	 */
+
 	private Long skuId;
-	/**
-	 * ??Ա?ȼ?id
-	 */
 	private Long memberLevelId;
-	/**
-	 * ??Ա?ȼ??
-	 */
 	private String memberLevelName;
-	/**
-	 * ??Ա??Ӧ?۸
-	 */
 	private BigDecimal memberPrice;
-	/**
-	 * ?ɷ??????????Ż?[0-???ɵ????Żݣ?1-?ɵ???]
-	 */
 	private Integer addOther;
 
 }

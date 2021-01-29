@@ -1,30 +1,27 @@
 package com.quguai.campustransaction.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quguai.campustransaction.product.dao.AttrGroupDao;
 import com.quguai.campustransaction.product.entity.AttrAttrgroupRelationEntity;
-import com.quguai.campustransaction.product.entity.AttrEntity;
+import com.quguai.campustransaction.product.entity.AttrGroupEntity;
 import com.quguai.campustransaction.product.service.AttrAttrgroupRelationService;
+import com.quguai.campustransaction.product.service.AttrGroupService;
 import com.quguai.campustransaction.product.service.AttrService;
 import com.quguai.campustransaction.product.vo.AttrGroupRelationVO;
+import com.quguai.campustransaction.product.vo.AttrGroupWithAttrsVo;
+import com.quguai.common.utils.PageUtils;
+import com.quguai.common.utils.Query;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quguai.common.utils.PageUtils;
-import com.quguai.common.utils.Query;
-
-import com.quguai.campustransaction.product.dao.AttrGroupDao;
-import com.quguai.campustransaction.product.entity.AttrGroupEntity;
-import com.quguai.campustransaction.product.service.AttrGroupService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("attrGroupService")
@@ -36,6 +33,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private AttrGroupDao attrGroupDao;
+
+    @Autowired
+    private AttrService attrService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -52,14 +52,15 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         String key = (String) params.get("key");
         QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<AttrGroupEntity>();
 
-        if (Strings.isNotBlank(key)){
+        if (Strings.isNotBlank(key)) {
             queryWrapper.and(obj -> {
-                obj.eq("attr_group_id", key).or().like("attr_group_name", key);});
+                obj.eq("attr_group_id", key).or().like("attr_group_name", key);
+            });
         }
         if (catelogId == 0) {
             IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
             return new PageUtils(page);
-        }else{
+        } else {
             queryWrapper.eq("catelog_id", catelogId);
             IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
             return new PageUtils(page);
@@ -77,4 +78,14 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         attrGroupDao.deleteBatchRelation(entities);
     }
 
+    @Override
+    public List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId) {
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+        return attrGroupEntities.stream().map(attrGroupEntity -> {
+            AttrGroupWithAttrsVo attrGroupWithAttrsVo = new AttrGroupWithAttrsVo();
+            BeanUtils.copyProperties(attrGroupEntity, attrGroupWithAttrsVo);
+            attrGroupWithAttrsVo.setAttrs(attrService.getRelationAttr(attrGroupEntity.getAttrGroupId()));
+            return attrGroupWithAttrsVo;
+        }).collect(Collectors.toList());
+    }
 }

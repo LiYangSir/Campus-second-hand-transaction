@@ -10,6 +10,8 @@ spring:
         server-addr: 192.168.1.115:8848
   application:
     name: Campus-Transaction-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   configuration:
@@ -21,4 +23,3 @@ mybatis-plus:
       logic-delete-value: 1
 server:
   port: 10000
-
