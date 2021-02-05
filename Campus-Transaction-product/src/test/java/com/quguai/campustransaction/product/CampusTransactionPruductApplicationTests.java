@@ -11,7 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
+import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -23,8 +27,11 @@ class CampusTransactionPruductApplicationTests {
     @Autowired
     private BrandService service;
 
-    @Autowired
+    @Resource
     private BaseMapper<BrandEntity> baseMapper;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
 //    @Autowired
 //    private OSSClient ossClient;
@@ -65,6 +72,12 @@ class CampusTransactionPruductApplicationTests {
 //       categoryService.findCatelogPath(225L).forEach(System.out::println);
         Page<BrandEntity> pp = baseMapper.selectPage(new Page<>(1, 10), null);
         System.out.println();
+    }
+
+    @Test
+    void testRedis() {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        System.out.println(valueOperations.get("name"));
     }
 
 }

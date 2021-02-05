@@ -1,10 +1,15 @@
 package com.quguai.campustransaction.ware.service.impl;
 
 import com.quguai.campustransaction.ware.feign.ProductFeignService;
+import com.quguai.campustransaction.ware.vo.SkuHasStockVo;
 import com.quguai.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +20,8 @@ import com.quguai.campustransaction.ware.dao.WareSkuDao;
 import com.quguai.campustransaction.ware.entity.WareSkuEntity;
 import com.quguai.campustransaction.ware.service.WareSkuService;
 import org.springframework.util.StringUtils;
+
+import javax.print.DocFlavor;
 
 
 @Service("wareSkuService")
@@ -67,6 +74,19 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
             baseMapper.insert(wareSkuEntity);
         }
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkusHasStock(List<Long> skuIds) {
+        List<SkuHasStockVo> collect = skuIds.stream().map(skuId -> {
+            SkuHasStockVo skuHasStockVo = new SkuHasStockVo();
+            Long count = baseMapper.getSkuStock(skuId);
+            skuHasStockVo.setSkuId(skuId);
+            skuHasStockVo.setHasStock(count != null && count > 0);
+            return skuHasStockVo;
+        }).collect(Collectors.toList());
+        System.out.println(collect);
+        return collect;
     }
 
 }

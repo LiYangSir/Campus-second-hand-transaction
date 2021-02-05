@@ -33,7 +33,6 @@ public class PurchaseController {
 
     @PostMapping("/done")
     public R finish(@RequestBody PurchaseDoneVo vo) {
-
         purchaseService.done(vo);
         return R.ok();
     }

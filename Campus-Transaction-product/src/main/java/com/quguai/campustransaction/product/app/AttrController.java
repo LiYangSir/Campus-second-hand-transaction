@@ -1,6 +1,5 @@
-package com.quguai.campustransaction.product.controller;
+package com.quguai.campustransaction.product.app;
 
-import com.quguai.campustransaction.product.entity.AttrEntity;
 import com.quguai.campustransaction.product.entity.ProductAttrValueEntity;
 import com.quguai.campustransaction.product.service.AttrService;
 import com.quguai.campustransaction.product.service.ProductAttrValueService;

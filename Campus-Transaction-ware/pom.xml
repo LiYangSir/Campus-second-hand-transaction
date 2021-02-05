@@ -7,7 +7,6 @@
 		<groupId>com.quguai</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.quguai</groupId>
 	<artifactId>campus-transaction-ware</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>campus-transaction-ware</name>

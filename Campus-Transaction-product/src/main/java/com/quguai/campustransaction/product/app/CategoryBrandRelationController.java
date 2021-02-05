@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.product.controller;
+package com.quguai.campustransaction.product.app;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.quguai.campustransaction.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quguai.campustransaction.product.vo.Catelog2Vo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.campustransaction.product.entity.CategoryEntity;
 
@@ -25,5 +26,11 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<Long> findCatelogPath(Long catelogId);
 
     void updateCascade(CategoryEntity category);
+
+    List<CategoryEntity> getLevelFirstCategories();
+
+    Map<String, List<Catelog2Vo>> getCatelogJson();
+
+    Map<String, List<Catelog2Vo>> getCatelogJSON();
 }
 

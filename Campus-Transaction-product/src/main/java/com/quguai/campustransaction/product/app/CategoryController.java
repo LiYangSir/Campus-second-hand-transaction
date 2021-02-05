@@ -1,21 +1,17 @@
-package com.quguai.campustransaction.product.controller;
+package com.quguai.campustransaction.product.app;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quguai.campustransaction.product.entity.CategoryEntity;
 import com.quguai.campustransaction.product.service.CategoryService;
-import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 
 

@@ -1,16 +1,22 @@
 package com.quguai.campustransaction.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quguai.campustransaction.product.dao.SpuInfoDao;
 import com.quguai.campustransaction.product.entity.*;
 import com.quguai.campustransaction.product.feign.CouponFeignService;
+import com.quguai.campustransaction.product.feign.SearchFeignService;
+import com.quguai.campustransaction.product.feign.WareFeignService;
 import com.quguai.campustransaction.product.service.*;
 import com.quguai.campustransaction.product.vo.SpuSaveVo;
 import com.quguai.campustransaction.product.vo.spu.*;
+import com.quguai.common.constant.ProductConstant;
+import com.quguai.common.to.SkuHasStockTo;
 import com.quguai.common.to.SkuReductionTo;
 import com.quguai.common.to.SpuBoundsTo;
+import com.quguai.common.to.es.SkuEsModel;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.Query;
 import com.quguai.common.utils.R;
@@ -21,8 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -53,6 +61,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Autowired
     private CouponFeignService couponFeignService;
 
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private WareFeignService wareFeignService;
+
+    @Autowired
+    private SearchFeignService searchFeignService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuInfoEntity> page = this.page(
@@ -70,7 +90,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         SpuInfoEntity spuInfoEntity = new SpuInfoEntity();
         BeanUtils.copyProperties(spuSaveVo, spuInfoEntity);
         this.saveBaseSpuInfo(spuInfoEntity);
-
+        Long spuId = spuInfoEntity.getId();
         // 2. 保存SPU的描述图片
         List<String> description = spuSaveVo.getDecript();
         SpuInfoDescEntity descEntity = new SpuInfoDescEntity();
@@ -120,6 +140,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuInfoEntity.setBrandId(spuSaveVo.getBrandId());
                 skuInfoEntity.setCatalogId(spuSaveVo.getCatalogId());
                 skuInfoEntity.setSaleCount(0L);
+                skuInfoEntity.setSpuId(spuId);
                 skuInfoEntity.setSkuDefaultImg(defaultImage);
                 // 6.1 sku的基本信息，sku_info
                 skuInfoService.saveSkuInfo(skuInfoEntity);
@@ -168,6 +189,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     /**
      * 有可能携带 status, brandId, catelog_id, key
+     *
      * @param params
      * @return
      */
@@ -203,5 +225,68 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         return new PageUtils(page);
     }
 
+    @Override
+    public void up(Long spuId) {
+        List<SkuInfoEntity> skus = skuInfoService.getSkusBySpuId(spuId);
+        List<Long> skuIds = skus.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
 
+        // 3. 查出所有可以被检索的的规格属性
+        List<ProductAttrValueEntity> baseAttrList = productAttrValueService.getBaseAttrList(spuId);
+        List<Long> attrIds = baseAttrList.stream().map(ProductAttrValueEntity::getAttrId).collect(Collectors.toList());
+
+        List<Long> collect1 = attrService.selectSearchAttrs(attrIds);
+        Set<Long> idSet = new HashSet<>(collect1);
+
+        List<SkuEsModel.Attrs> attrsList = baseAttrList.stream().filter(entity ->
+                idSet.contains(entity.getAttrId())).map(entity -> {
+            SkuEsModel.Attrs attrs1 = new SkuEsModel.Attrs();
+            BeanUtils.copyProperties(entity, attrs1);
+            return attrs1;
+        }).collect(Collectors.toList());
+
+        // 1.发送远程调用查看是否有库存
+        Map<Long, Boolean> skuHasStockMap = null;
+        try {
+            R r = wareFeignService.getSkuHasStock(skuIds);
+            TypeReference<List<SkuHasStockTo>> typeReference = new TypeReference<List<SkuHasStockTo>>() {};
+            skuHasStockMap = r.getData(typeReference).stream().collect(Collectors.toMap(SkuHasStockTo::getSkuId, SkuHasStockTo::getHasStock));
+        } catch (Exception e){
+            log.error("库存服务调用异常，原因：{}", e);
+        }
+
+        // 分装每一个sku的信息
+        Map<Long, Boolean> finalSkuHasStockMap = skuHasStockMap;
+        List<SkuEsModel> upProducts = skus.stream().map(sku -> {
+            // 组装需要的数据
+            SkuEsModel skuEsModel = new SkuEsModel();
+            BeanUtils.copyProperties(sku, skuEsModel);
+            skuEsModel.setSkuPrice(sku.getPrice());
+            skuEsModel.setSkuImg(sku.getSkuDefaultImg());
+            // 设置是否有库存
+            if (finalSkuHasStockMap == null){
+                skuEsModel.setHasStock(true);
+            }else{
+                skuEsModel.setHasStock(finalSkuHasStockMap.get(sku.getSkuId()));
+            }
+            // 2. 热度评分：0
+            skuEsModel.setHotScore(0L);
+            BrandEntity brandEntity = brandService.getById(sku.getBrandId());
+            skuEsModel.setBrandName(brandEntity.getName());
+            skuEsModel.setBrandImg(brandEntity.getLogo());
+            CategoryEntity categoryEntity = categoryService.getById(sku.getCatalogId());
+            skuEsModel.setCatalogName(categoryEntity.getName());
+            // 设置检索属性
+            skuEsModel.setAttrs(attrsList);
+            return skuEsModel;
+        }).collect(Collectors.toList());
+        // 4. 将数据发送给ES进行保存，远程调用ES服务
+        R r = searchFeignService.productStatusUp(upProducts);
+        if (r.getCode() == 0) {
+            // 远程调用成功
+            //TODO 修改发布状态，已经上架
+            baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_UP.getCode());
+        } else {
+            // TODO 重复调用？接口幂等性，重试机制
+        }
+    }
 }

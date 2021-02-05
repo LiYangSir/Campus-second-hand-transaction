@@ -3,7 +3,6 @@ package com.quguai.campustransaction.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quguai.campustransaction.product.dao.AttrDao;
 import com.quguai.campustransaction.product.entity.AttrAttrgroupRelationEntity;
@@ -185,6 +184,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
         IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), queryWrapper);
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+        List<AttrEntity> list = this.list(new QueryWrapper<AttrEntity>().eq("attr_type", 1).in("attr_id", attrIds));
+
+        return list.stream().map(AttrEntity::getAttrId).collect(Collectors.toList());
     }
 
 }

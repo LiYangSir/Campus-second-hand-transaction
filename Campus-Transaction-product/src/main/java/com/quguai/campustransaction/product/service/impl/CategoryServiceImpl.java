@@ -7,6 +7,7 @@ import com.quguai.campustransaction.product.dao.CategoryDao;
 import com.quguai.campustransaction.product.entity.CategoryEntity;
 import com.quguai.campustransaction.product.service.CategoryBrandRelationService;
 import com.quguai.campustransaction.product.service.CategoryService;
+import com.quguai.campustransaction.product.vo.Catelog2Vo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<Long> paths = new ArrayList<>();
         CategoryEntity entity = this.getById(catelogId);
         paths.add(entity.getCatId());
-        while (entity.getParentCid() != 0){
+        while (entity.getParentCid() != 0) {
             paths.add(entity.getParentCid());
             entity = this.getById(entity.getParentCid());
         }
@@ -87,4 +88,45 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CategoryEntity> getLevelFirstCategories() {
+        return this.list(new QueryWrapper<CategoryEntity>().eq("cat_level", 1));
+    }
+
+    @Override
+    public Map<String, List<Catelog2Vo>> getCatelogJson() {
+        List<CategoryEntity> levelFirstCategories = this.getLevelFirstCategories();
+        return levelFirstCategories.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+            List<CategoryEntity> level2 = this.list(new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
+            if (level2 != null) {
+                return level2.stream().map(entity -> {
+                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), entity.getCatId().toString(), entity.getName(), null);
+                    List<CategoryEntity> level3 = this.list(new QueryWrapper<CategoryEntity>().eq("parent_cid", entity.getCatId()));
+                    if (level3 != null) {
+                        List<Catelog2Vo.Catelog3Vo> collect = level3.stream().map(item -> new Catelog2Vo.Catelog3Vo(entity.getCatId().toString(), item.getCatId().toString(), item.getName())).collect(Collectors.toList());
+                        catelog2Vo.setCatalog3List(collect);
+                    }
+                    return catelog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return null;
+        }));
+    }
+
+    @Override
+    public Map<String, List<Catelog2Vo>> getCatelogJSON() {
+        List<CategoryEntity> list = this.list();
+        return list.stream().filter(entity -> entity.getParentCid() == 0).collect(Collectors.toMap(v -> v.getCatId().toString(),
+                v -> list.stream()
+                        .filter(entity -> entity.getParentCid().equals(v.getCatId()))
+                        .map(entity -> {
+                            Catelog2Vo catelog2Vo = new Catelog2Vo(entity.getParentCid().toString(), entity.getCatId().toString(), entity.getName(), null);
+                            List<Catelog2Vo.Catelog3Vo> collect = list.stream()
+                                    .filter(entity1 -> entity1.getParentCid().equals(entity.getCatId()))
+                                    .map(entity1 -> new Catelog2Vo.Catelog3Vo(entity1.getParentCid().toString(), entity1.getCatId().toString(), entity1.getName()))
+                                    .collect(Collectors.toList());
+                            catelog2Vo.setCatalog3List(collect);
+                            return catelog2Vo;
+                        }).collect(Collectors.toList())));
+    }
 }

@@ -1,8 +1,6 @@
-package com.quguai.campustransaction.product.controller;
+package com.quguai.campustransaction.product.app;
 
-import java.security.URIParameter;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -10,7 +8,6 @@ import com.quguai.common.valid.AddGroup;
 import com.quguai.common.valid.UpdateGroup;
 import com.quguai.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +19,6 @@ import com.quguai.campustransaction.product.entity.BrandEntity;
 import com.quguai.campustransaction.product.service.BrandService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
-
-import javax.validation.Valid;
 
 
 /**

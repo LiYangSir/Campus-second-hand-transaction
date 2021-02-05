@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.product.controller;
+package com.quguai.campustransaction.product.app;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -6,11 +6,7 @@ import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.quguai.campustransaction.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.quguai.campustransaction.product.entity.SpuInfoEntity;
 import com.quguai.campustransaction.product.service.SpuInfoService;
@@ -41,6 +37,13 @@ public class SpuInfoController {
         PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
+    }
+
+    @PostMapping("/{spuId}/up")
+    public R list(@PathVariable("spuId") Long spuId){
+        spuInfoService.up(spuId);
+
+        return R.ok();
     }
 
 
