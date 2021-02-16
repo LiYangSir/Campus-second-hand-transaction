@@ -29,8 +29,8 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     List<CategoryEntity> getLevelFirstCategories();
 
-    Map<String, List<Catelog2Vo>> getCatelogJson();
+    Map<String, List<Catelog2Vo>> getCatelogJsonFromCache();
 
-    Map<String, List<Catelog2Vo>> getCatelogJSON();
+    Map<String, List<Catelog2Vo>> getCatelogJSONFromDbWithLocalLock();
 }
 

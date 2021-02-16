@@ -1,6 +1,7 @@
 package com.quguai.campustransaction.product;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.quguai.campustransaction.product.entity.BrandEntity;
@@ -9,6 +10,7 @@ import com.quguai.campustransaction.product.service.BrandService;
 import com.quguai.campustransaction.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,6 +28,9 @@ class CampusTransactionPruductApplicationTests {
 
     @Autowired
     private BrandService service;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Resource
     private BaseMapper<BrandEntity> baseMapper;
@@ -80,4 +85,13 @@ class CampusTransactionPruductApplicationTests {
         System.out.println(valueOperations.get("name"));
     }
 
+    @Test
+    void JsonTest(){
+        System.out.println(JSON.toJSONString(null));
+    }
+
+    @Test
+    void testRedissonClient(){
+        System.out.println(redissonClient);
+    }
 }

@@ -28,8 +28,8 @@ public class IndexController {
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<Catelog2Vo>> getCatelogJson() {
-//        return categoryService.getCatelogJson();
-        return categoryService.getCatelogJSON();
+//        return categoryService.getCatelogJSONFromDb();
+        return categoryService.getCatelogJsonFromCache();
     }
 
 }
