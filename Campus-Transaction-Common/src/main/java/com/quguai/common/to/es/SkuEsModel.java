@@ -17,7 +17,7 @@ public class SkuEsModel {
 
     private BigDecimal skuPrice;
     private String skuImg;
-    private Boolean hasStock;
+    private Boolean hasStock = true;
     private Long hotScore;
     private String brandName;
     private String brandImg;

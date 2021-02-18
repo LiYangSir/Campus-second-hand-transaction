@@ -30,24 +30,29 @@ spring:
             - Path=/api/coupon/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
-      #   coupon
+      #   ware
         - id: ware_route
           uri: lb://Campus-Transaction-ware
           predicates:
             - Path=/api/ware/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
+
         - id: admin_route
           uri: lb://renren-fast
           predicates:
             - Path=/api/**
           filters:
             - RewritePath=/api(?<segment>/?.*), /renren-fast$\{segment}
+        - id: campus_search_route
+          uri: lb://Campus-Transaction-search
+          predicates:
+            - Host=search.campus.com
       # nginx服务转发
         - id: campus_host_route
           uri: lb://Campus-Transaction-product
           predicates:
-            - Host=**.campus.com,campus.com
+            - Host=campus.com
     nacos:
       discovery:
         server-addr: 192.168.1.115:8848

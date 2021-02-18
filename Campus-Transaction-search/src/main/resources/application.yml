@@ -5,5 +5,7 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.1.115:8848
+  thymeleaf:
+    cache: false
 server:
   port: 12000
