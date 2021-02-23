@@ -161,9 +161,10 @@ public class MallSearchServiceImpl implements MallSearchService {
                 queryBuilder.filter(attrs);
             }
         }
-
-        // 按照库存进行查询
-        queryBuilder.filter(QueryBuilders.termsQuery("hasStock", searchParam.getHasStock() == 1));
+        if (searchParam.getHasStock() != null) {
+            // 按照库存进行查询
+            queryBuilder.filter(QueryBuilders.termsQuery("hasStock", searchParam.getHasStock() == 1));
+        }
 
         // 按照价格进行查询
         String skuPrice = searchParam.getSkuPrice();

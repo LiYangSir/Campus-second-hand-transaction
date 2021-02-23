@@ -8,6 +8,9 @@ import com.quguai.campustransaction.product.entity.BrandEntity;
 import com.quguai.campustransaction.product.service.AttrGroupService;
 import com.quguai.campustransaction.product.service.BrandService;
 import com.quguai.campustransaction.product.service.CategoryService;
+import com.quguai.campustransaction.product.service.SkuSaleAttrValueService;
+import com.quguai.campustransaction.product.vo.SkuItemSaleAttrVo;
+import com.quguai.campustransaction.product.vo.SpuItemAttrGroupAttr;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RedissonClient;
@@ -21,6 +24,7 @@ import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 @Slf4j
 @SpringBootTest
@@ -37,6 +41,12 @@ class CampusTransactionPruductApplicationTests {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private AttrGroupService attrGroupService;
+
+    @Autowired
+    private SkuSaleAttrValueService skuSaleAttrValueService;
 
 //    @Autowired
 //    private OSSClient ossClient;
@@ -93,5 +103,17 @@ class CampusTransactionPruductApplicationTests {
     @Test
     void testRedissonClient(){
         System.out.println(redissonClient);
+    }
+
+    @Test
+    void testGroup() {
+        List<SpuItemAttrGroupAttr> attrGroupWithAttrsBySpuId = attrGroupService.getAttrGroupWithAttrsBySpuId(1L, 225L);
+        System.out.println(attrGroupWithAttrsBySpuId);
+    }
+    @Test
+    void testAttr() {
+        List<SkuItemSaleAttrVo> saleAttrBySpuId = skuSaleAttrValueService.getSaleAttrBySpuId(1L);
+        System.out.println(saleAttrBySpuId);
+
     }
 }

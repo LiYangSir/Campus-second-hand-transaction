@@ -3,6 +3,8 @@ package com.quguai.campustransaction.product.dao;
 import com.quguai.campustransaction.product.entity.AttrAttrgroupRelationEntity;
 import com.quguai.campustransaction.product.entity.AttrGroupEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.quguai.campustransaction.product.vo.SkuItemVo;
+import com.quguai.campustransaction.product.vo.SpuItemAttrGroupAttr;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +21,6 @@ import java.util.List;
 public interface AttrGroupDao extends BaseMapper<AttrGroupEntity> {
 
     void deleteBatchRelation(@Param("entities") List<AttrAttrgroupRelationEntity> entities);
+
+    List<SpuItemAttrGroupAttr> getAttrGroupWithAttrsBySpuId(@Param("spuId") Long spuId, @Param("catalogId") Long catalogId);
 }

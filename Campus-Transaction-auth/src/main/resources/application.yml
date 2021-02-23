@@ -1,0 +1,26 @@
+server:
+  port: 20000
+  servlet:
+    session:
+      timeout: 30m
+spring:
+  application:
+    name: Campus-Transaction-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.115:8848
+  session:
+    store-type: redis
+
+  thymeleaf:
+    cache: false
+  redis:
+    port: 6379
+    host: 192.168.1.115
+campus:
+  oauth:
+    weibo:
+      client-id: 1832512189
+      client-secret: 17d6af788fb357169f954ba5952bdefd
+      redirect-uri: http://auth.campus.com/oauth2.0/weibo/success

@@ -24,6 +24,8 @@ spring:
 #      key-prefix: CACHE_
       use-key-prefix: true
       cache-null-values: true
+  session:
+    store-type: redis
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
 #  configuration:
@@ -34,6 +36,10 @@ mybatis-plus:
       logic-not-delete-value: 0
       logic-delete-value: 1
 
-
 server:
-  port: 10000
+  port: 10001
+campus:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10

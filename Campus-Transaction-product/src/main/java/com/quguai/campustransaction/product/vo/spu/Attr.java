@@ -4,9 +4,11 @@
 package com.quguai.campustransaction.product.vo.spu;
 
 import lombok.Data;
+import lombok.ToString;
 
 
 @Data
+@ToString
 public class Attr {
     private Long attrId;
     private String attrName;

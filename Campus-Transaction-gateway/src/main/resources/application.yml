@@ -44,15 +44,22 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api(?<segment>/?.*), /renren-fast$\{segment}
+
+      # 查询服务的跳转
         - id: campus_search_route
           uri: lb://Campus-Transaction-search
           predicates:
             - Host=search.campus.com
+      # 认证服务的的跳转
+        - id: campus_auth_route
+          uri: lb://Campus-Transaction-auth
+          predicates:
+            - Host=auth.campus.com
       # nginx服务转发
         - id: campus_host_route
           uri: lb://Campus-Transaction-product
           predicates:
-            - Host=campus.com
+            - Host=campus.com,item.campus.com
     nacos:
       discovery:
         server-addr: 192.168.1.115:8848

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "com.quguai.campustransaction.product.controller")
+@RestControllerAdvice(basePackages = "com.quguai.campustransaction.product.app")
 public class CampusTransactionExceptionAdvice {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

@@ -19,14 +19,13 @@ import lombok.Data;
 public class MemberEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
 	@TableId
 	private Long id;
-	/**
-	 * ??Ա?ȼ?id
-	 */
+
+	private String socialUid;
+	private String accessToken;
+	private Long expiresIn;
+
 	private Long levelId;
 	/**
 	 * ?û??

@@ -11,6 +11,8 @@ import com.quguai.campustransaction.product.service.AttrGroupService;
 import com.quguai.campustransaction.product.service.AttrService;
 import com.quguai.campustransaction.product.vo.AttrGroupRelationVO;
 import com.quguai.campustransaction.product.vo.AttrGroupWithAttrsVo;
+import com.quguai.campustransaction.product.vo.SkuItemVo;
+import com.quguai.campustransaction.product.vo.SpuItemAttrGroupAttr;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.Query;
 import org.apache.logging.log4j.util.Strings;
@@ -87,5 +89,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             attrGroupWithAttrsVo.setAttrs(attrService.getRelationAttr(attrGroupEntity.getAttrGroupId()));
             return attrGroupWithAttrsVo;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SpuItemAttrGroupAttr> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
+        return this.baseMapper.getAttrGroupWithAttrsBySpuId(spuId, catalogId);
     }
 }

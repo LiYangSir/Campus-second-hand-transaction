@@ -4,7 +4,13 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.quguai.campustransaction.member.exception.PhoneNumberExistException;
+import com.quguai.campustransaction.member.exception.UsernameExistException;
 import com.quguai.campustransaction.member.feign.CouponFeignService;
+import com.quguai.campustransaction.member.vo.SocialUser;
+import com.quguai.campustransaction.member.vo.UserLoginVo;
+import com.quguai.campustransaction.member.vo.UserRegister;
+import com.quguai.common.exception.BizCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +36,37 @@ public class MemberController {
 
     @Autowired
     private CouponFeignService couponFeignService;
+
+    @PostMapping("/register")
+    public R register(@RequestBody UserRegister vo){
+        try {
+            memberService.register(vo);
+        } catch (PhoneNumberExistException phoneNumberExistException) {
+            // 根据不同的异常做出不同的处理
+            return R.error(BizCodeEnum.PHONE_EXIST_EXCEPTION);
+        } catch (UsernameExistException usernameExistException) {
+            return R.error(BizCodeEnum.USERNAME_EXIST_EXCEPTION);
+        }
+        return R.ok();
+    }
+
+    @PostMapping("/oauth2/login")
+    public R oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
+        MemberEntity entity = memberService.login(socialUser);
+        if (entity != null) {
+            return R.ok().setData(entity);
+        }
+        return R.error(BizCodeEnum.LOGIN_ACCOUNT_PASSWORD_ERROR_EXCEPTION);
+    }
+
+    @PostMapping("/login")
+    public R login(@RequestBody UserLoginVo userLoginVo) {
+        MemberEntity entity = memberService.login(userLoginVo);
+        if (entity != null) {
+            return R.ok().setData(entity);
+        }
+        return R.error(BizCodeEnum.LOGIN_ACCOUNT_PASSWORD_ERROR_EXCEPTION);
+    }
 
     @GetMapping("arraylist")
     public R getCoupon() {
