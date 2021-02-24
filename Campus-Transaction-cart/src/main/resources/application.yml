@@ -1,0 +1,10 @@
+server:
+  port: 30000
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.115:8848
+  application:
+    name: Campus-Transaction-cart
