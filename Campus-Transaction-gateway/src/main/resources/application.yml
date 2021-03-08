@@ -55,11 +55,16 @@ spring:
           uri: lb://Campus-Transaction-auth
           predicates:
             - Host=auth.campus.com
-        # 购物车服务的的跳转
+      # 购物车服务的的跳转
         - id: campus_cart_route
           uri: lb://Campus-Transaction-cart
           predicates:
             - Host=cart.campus.com
+      # 订单服务的的跳转
+        - id: campus_order_route
+          uri: lb://Campus-Transaction-order
+          predicates:
+            - Host=order.campus.com
       # nginx服务转发
         - id: campus_host_route
           uri: lb://Campus-Transaction-product

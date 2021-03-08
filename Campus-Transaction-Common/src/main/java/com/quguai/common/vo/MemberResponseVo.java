@@ -1,4 +1,4 @@
-package com.quguai.auth.vo;
+package com.quguai.common.vo;
 
 import lombok.Data;
 

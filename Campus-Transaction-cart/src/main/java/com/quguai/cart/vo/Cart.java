@@ -20,7 +20,7 @@ public class Cart {
         this.items = items;
     }
 
-    public Integer getCount() {
+    public Integer getCountNum() {
         int count = 0;
         if (!ListUtils.isEmpty(items)) {
             for (CartItem item : items) {
@@ -38,7 +38,8 @@ public class Cart {
         BigDecimal amount = new BigDecimal(0);
         if (!ListUtils.isEmpty(items)) {
             for (CartItem item : items) {
-                amount = amount.add(item.getTotalPrice());
+                if (item.getCheck())
+                    amount = amount.add(item.getTotalPrice());
             }
         }
         return amount.subtract(getReduce());

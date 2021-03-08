@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.order.controller;
+package com.quguai.campustransaction.order.api;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quguai.campustransaction.order.entity.OrderReturnReasonEntity;
-import com.quguai.campustransaction.order.service.OrderReturnReasonService;
+import com.quguai.campustransaction.order.entity.OrderOperateHistoryEntity;
+import com.quguai.campustransaction.order.service.OrderOperateHistoryService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 
 
 
 /**
- * ?˻?ԭ?
+ * ??????????ʷ??¼
  *
  * @author liyang
  * @email liyang@gmail.com
  * @date 2021-01-20 21:49:03
  */
 @RestController
-@RequestMapping("order/orderreturnreason")
-public class OrderReturnReasonController {
+@RequestMapping("order/orderoperatehistory")
+public class OrderOperateHistoryController {
     @Autowired
-    private OrderReturnReasonService orderReturnReasonService;
+    private OrderOperateHistoryService orderOperateHistoryService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("order:orderreturnreason:list")
+    //@RequiresPermissions("order:orderoperatehistory:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = orderReturnReasonService.queryPage(params);
+        PageUtils page = orderOperateHistoryService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,20 +47,20 @@ public class OrderReturnReasonController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:orderreturnreason:info")
+    //@RequiresPermissions("order:orderoperatehistory:info")
     public R info(@PathVariable("id") Long id){
-		OrderReturnReasonEntity orderReturnReason = orderReturnReasonService.getById(id);
+		OrderOperateHistoryEntity orderOperateHistory = orderOperateHistoryService.getById(id);
 
-        return R.ok().put("orderReturnReason", orderReturnReason);
+        return R.ok().put("orderOperateHistory", orderOperateHistory);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("order:orderreturnreason:save")
-    public R save(@RequestBody OrderReturnReasonEntity orderReturnReason){
-		orderReturnReasonService.save(orderReturnReason);
+    //@RequiresPermissions("order:orderoperatehistory:save")
+    public R save(@RequestBody OrderOperateHistoryEntity orderOperateHistory){
+		orderOperateHistoryService.save(orderOperateHistory);
 
         return R.ok();
     }
@@ -69,9 +69,9 @@ public class OrderReturnReasonController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("order:orderreturnreason:update")
-    public R update(@RequestBody OrderReturnReasonEntity orderReturnReason){
-		orderReturnReasonService.updateById(orderReturnReason);
+    //@RequiresPermissions("order:orderoperatehistory:update")
+    public R update(@RequestBody OrderOperateHistoryEntity orderOperateHistory){
+		orderOperateHistoryService.updateById(orderOperateHistory);
 
         return R.ok();
     }
@@ -80,9 +80,9 @@ public class OrderReturnReasonController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:orderreturnreason:delete")
+    //@RequiresPermissions("order:orderoperatehistory:delete")
     public R delete(@RequestBody Long[] ids){
-		orderReturnReasonService.removeByIds(Arrays.asList(ids));
+		orderOperateHistoryService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

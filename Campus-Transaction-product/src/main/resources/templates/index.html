@@ -5,13 +5,11 @@
     <meta charset=" UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>校园二手交易</title>
     <link rel="stylesheet" href="/static/index/css/swiper-3.4.2.min.css">
     <link rel="stylesheet" href="/static/index/css/GL.css">
     <script src="/static/index/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-
     <script src="/static/index/js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
-
     <script src="/static/index/js/swiper-3.4.2.min.js"></script>
 
 </head>
@@ -94,19 +92,11 @@
                 </div>
             </b>
             <ul>
-                <li>
-                    <a th:if="${session.loginUser != null}">欢迎，[[${session.loginUser.username}]]</a>
-                    <a th:if="${session.loginUser == null}" href="http://auth.campus.com/login.html">你好，请登录</a>
-                </li>
-                <li>
-                    <a th:if="${session.loginUser == null}" href="http://auth.campus.com/register.html" class="li_2">免费注册</a>
-                </li>
+                <th:block th:include="_fragment:: loginFragment"/>
                 <span>|</span>
                 <li>
-                    <a href="/static/#">我的订单</a>
+                    <a href="http://order.campus.com/list.html">我的订单</a>
                 </li>
-
-
             </ul>
         </div>
     </div>
@@ -121,7 +111,7 @@
         <div class="header_ico">
             <div class="header_gw">
                 <img src="/static/index/img/img_15.png"/>
-                <span><a href="/static//购物车\One_JDshop.html">我的购物车</a></span>
+                <span><a href="http://cart.campus.com/cart.html">我的购物车</a></span>
                 <span>0</span>
             </div>
             <div class="header_ko">
@@ -203,7 +193,8 @@
             <div class="header_main_left">
                 <ul>
                     <li th:each="category: ${categories}">
-                        <a href="/static/#" class="header_main_left_a" th:attr="ctg-data=${category.catId}"><b th:text="${category.name}">家用电器</b></a>
+                        <a href="/static/#" class="header_main_left_a" th:attr="ctg-data=${category.catId}"><b
+                                th:text="${category.name}">家用电器</b></a>
                     </li>
                     <!--/*-->
                     <li class="header_li2">
@@ -214,7 +205,8 @@
 
                     </li>
                     <li class="header_li2">
-                        <a href="/static/#" class="header_main_left_a" ctg-data="5,7"><b>家居</b> / <b>家具</b> / <b>家装</b> /
+                        <a href="/static/#" class="header_main_left_a" ctg-data="5,7"><b>家居</b> / <b>家具</b> / <b>家装</b>
+                            /
                             <b>厨具</b></a>
 
                     </li>
@@ -228,7 +220,8 @@
 
                     </li>
                     <li class="header_li2">
-                        <a href="/static/#" class="header_main_left_a" ctg-data="11,13,10,15"><b>鞋</b> / <b>箱包</b> / <b>钟表</b> /
+                        <a href="/static/#" class="header_main_left_a" ctg-data="11,13,10,15"><b>鞋</b> / <b>箱包</b> / <b>钟表</b>
+                            /
                             <b>珠宝</b></a>
 
                     </li>
@@ -245,7 +238,8 @@
 
                     </li>
                     <li class="header_li2">
-                        <a href="/static/#" class="header_main_left_a" ctg-data="14,20"><b>食品</b> / <b>酒类</b> / <b>生鲜</b> / <b>特产</b></a>
+                        <a href="/static/#" class="header_main_left_a" ctg-data="14,20"><b>食品</b> / <b>酒类</b> /
+                            <b>生鲜</b> / <b>特产</b></a>
 
                     </li>
                     <li class="header_li2">
@@ -257,7 +251,8 @@
 
                     </li>
                     <li class="header_li2">
-                        <a href="/static/#" class="header_main_left_a" ctg-data="1"><b>图书</b> / <b>音像</b>/ <b>电子书</b></a>
+                        <a href="/static/#" class="header_main_left_a" ctg-data="1"><b>图书</b> / <b>音像</b>/
+                            <b>电子书</b></a>
 
                     </li>
                     <li class="header_li2">

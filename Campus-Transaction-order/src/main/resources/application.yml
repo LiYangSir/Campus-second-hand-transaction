@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: LY0115..
-    url: jdbc:mysql://192.168.1.115:3307/campus_transaction_oms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.115:3306/campus_transaction_oms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     nacos:
@@ -10,6 +10,11 @@ spring:
         server-addr: 192.168.1.115:8848
   application:
     name: Campus-Transaction-order
+  session:
+    store-type: redis
+  redis:
+    host: 192.168.1.115
+    port: 6379
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -17,3 +22,9 @@ mybatis-plus:
       id-type: auto
 server:
   port: 9000
+
+campus:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10

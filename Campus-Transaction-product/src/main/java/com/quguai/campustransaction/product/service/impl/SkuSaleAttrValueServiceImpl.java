@@ -19,6 +19,7 @@ import com.quguai.campustransaction.product.service.SkuSaleAttrValueService;
 @Service("skuSaleAttrValueService")
 public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao, SkuSaleAttrValueEntity> implements SkuSaleAttrValueService {
 
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuSaleAttrValueEntity> page = this.page(
@@ -32,6 +33,11 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
     @Override
     public List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId) {
         return this.baseMapper.getSaleAttrBySpuId(spuId);
+    }
+
+    @Override
+    public List<String> getSkuSaleAttrAsStringList(Long skuId) {
+        return baseMapper.getSkuSaleAttrAsStringList(skuId);
     }
 
 }

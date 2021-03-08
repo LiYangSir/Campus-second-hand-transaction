@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.quguai.campustransaction.ware.exception.NoStockException;
+import com.quguai.campustransaction.ware.vo.LockStockResult;
 import com.quguai.campustransaction.ware.vo.SkuHasStockVo;
+import com.quguai.campustransaction.ware.vo.WareSkuLockVo;
+import com.quguai.common.exception.BizCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +32,16 @@ import com.quguai.common.utils.R;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+
+    @PostMapping("/lock/order")
+    public R orderLockStock(@RequestBody WareSkuLockVo vo) {
+        try {
+            wareSkuService.orderLockStock(vo);
+            return R.ok();
+        } catch (NoStockException e) {
+            return R.error(BizCodeEnum.NO_STOCK_EXCEPTION);
+        }
+    }
 
     // 远程查询库存是否有库存
     @PostMapping("/hasstock")

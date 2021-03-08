@@ -3,12 +3,12 @@ package com.quguai.auth.web;
 import com.alibaba.fastjson.TypeReference;
 import com.quguai.auth.feign.MemberFeignService;
 import com.quguai.auth.feign.ThirdPartyFeignService;
-import com.quguai.auth.vo.MemberResponseVo;
 import com.quguai.auth.vo.UserLoginVo;
 import com.quguai.auth.vo.UserRegister;
 import com.quguai.common.constant.AuthServerConstant;
 import com.quguai.common.exception.BizCodeEnum;
 import com.quguai.common.utils.R;
+import com.quguai.common.vo.MemberResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -38,11 +38,12 @@ public class LoginController {
 
     @Autowired
     private MemberFeignService memberFeignService;
+
     @Autowired
     private StringRedisTemplate redisTemplate;
 
     @GetMapping("/login.html")
-    public String login(HttpSession session) {
+    public String login(@RequestParam(value = "returnUrl", required = false) String url, HttpSession session) {
         Object attribute = session.getAttribute(AuthServerConstant.LOGIN_USER);
         if (attribute != null) {
             return "redirect:http://campus.com";
@@ -117,14 +118,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(UserLoginVo userLoginVo, RedirectAttributes attributes, HttpSession session){
+    public String login(UserLoginVo userLoginVo, RedirectAttributes attributes, HttpSession session) {
         R login = memberFeignService.login(userLoginVo);
         if (login.getCode() != 0) {
             String msg = login.getMsg();
             attributes.addFlashAttribute("error", msg);
             return "redirect:http://auth.campus.com/login.html";
         }
-        MemberResponseVo data = login.getData(new TypeReference<MemberResponseVo>() {});
+        MemberResponseVo data = login.getData(new TypeReference<MemberResponseVo>() {
+        });
         session.setAttribute(AuthServerConstant.LOGIN_USER, data);
         return "redirect:http://campus.com";
     }

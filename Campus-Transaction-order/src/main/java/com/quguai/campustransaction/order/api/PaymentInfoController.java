@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.order.controller;
+package com.quguai.campustransaction.order.api;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quguai.campustransaction.order.entity.OrderSettingEntity;
-import com.quguai.campustransaction.order.service.OrderSettingService;
+import com.quguai.campustransaction.order.entity.PaymentInfoEntity;
+import com.quguai.campustransaction.order.service.PaymentInfoService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 
 
 
 /**
- * ??????????Ϣ
+ * ֧????Ϣ?
  *
  * @author liyang
  * @email liyang@gmail.com
- * @date 2021-01-20 21:49:03
+ * @date 2021-01-20 21:49:02
  */
 @RestController
-@RequestMapping("order/ordersetting")
-public class OrderSettingController {
+@RequestMapping("order/paymentinfo")
+public class PaymentInfoController {
     @Autowired
-    private OrderSettingService orderSettingService;
+    private PaymentInfoService paymentInfoService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("order:ordersetting:list")
+    //@RequiresPermissions("order:paymentinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = orderSettingService.queryPage(params);
+        PageUtils page = paymentInfoService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,20 +47,20 @@ public class OrderSettingController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:ordersetting:info")
+    //@RequiresPermissions("order:paymentinfo:info")
     public R info(@PathVariable("id") Long id){
-		OrderSettingEntity orderSetting = orderSettingService.getById(id);
+		PaymentInfoEntity paymentInfo = paymentInfoService.getById(id);
 
-        return R.ok().put("orderSetting", orderSetting);
+        return R.ok().put("paymentInfo", paymentInfo);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("order:ordersetting:save")
-    public R save(@RequestBody OrderSettingEntity orderSetting){
-		orderSettingService.save(orderSetting);
+    //@RequiresPermissions("order:paymentinfo:save")
+    public R save(@RequestBody PaymentInfoEntity paymentInfo){
+		paymentInfoService.save(paymentInfo);
 
         return R.ok();
     }
@@ -69,9 +69,9 @@ public class OrderSettingController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("order:ordersetting:update")
-    public R update(@RequestBody OrderSettingEntity orderSetting){
-		orderSettingService.updateById(orderSetting);
+    //@RequiresPermissions("order:paymentinfo:update")
+    public R update(@RequestBody PaymentInfoEntity paymentInfo){
+		paymentInfoService.updateById(paymentInfo);
 
         return R.ok();
     }
@@ -80,9 +80,9 @@ public class OrderSettingController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:ordersetting:delete")
+    //@RequiresPermissions("order:paymentinfo:delete")
     public R delete(@RequestBody Long[] ids){
-		orderSettingService.removeByIds(Arrays.asList(ids));
+		paymentInfoService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

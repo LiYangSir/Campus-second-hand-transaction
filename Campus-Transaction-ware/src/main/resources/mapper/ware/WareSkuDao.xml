@@ -3,7 +3,7 @@
 
 <mapper namespace="com.quguai.campustransaction.ware.dao.WareSkuDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.quguai.campustransaction.ware.entity.WareSkuEntity" id="wareSkuMap">
         <result property="id" column="id"/>
         <result property="skuId" column="sku_id"/>
@@ -15,8 +15,14 @@
     <insert id="addStock">
         update `wms_ware_sku` set stock=stock+#{skuNum} where sku_id=#{skuId} and ware_id=#{wareId}
     </insert>
+    <update id="lockSkuStock">
+        update `wms_ware_sku` set stock_locked=stock_locked+#{num} where sku_id=#{skuId} and ware_id=#{wareId} and stock-stock_locked>=#{num}
+    </update>
     <select id="getSkuStock" resultType="java.lang.Long">
         select sum(stock - stock_locked) from `wms_ware_sku` where `sku_id` = #{skuId}
+    </select>
+    <select id="listWareIdHasSkuStock" resultType="java.lang.Long">
+        select ware_id from `wms_ware_sku` where sku_id = #{skuId} and stock_locked>0
     </select>
 
 

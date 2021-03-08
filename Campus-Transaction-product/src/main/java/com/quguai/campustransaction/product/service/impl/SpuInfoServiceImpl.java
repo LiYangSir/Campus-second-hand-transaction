@@ -20,6 +20,7 @@ import com.quguai.common.to.es.SkuEsModel;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.Query;
 import com.quguai.common.utils.R;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         return new PageUtils(page);
     }
 
+//    @GlobalTransactional
     @Transactional
     @Override
     public void saveSpuInfo(SpuSaveVo spuSaveVo) {
@@ -288,5 +290,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         } else {
             // TODO 重复调用？接口幂等性，重试机制
         }
+    }
+
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        SkuInfoEntity byId = skuInfoService.getById(skuId);
+        return getById(byId.getSpuId());
     }
 }

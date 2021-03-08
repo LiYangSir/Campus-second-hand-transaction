@@ -1,10 +1,14 @@
 package com.quguai.campustransaction.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quguai.campustransaction.order.vo.OrderConfirmVo;
+import com.quguai.campustransaction.order.vo.OrderSubmitVo;
+import com.quguai.campustransaction.order.vo.SubmitOrderResponseVo;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.campustransaction.order.entity.OrderEntity;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * ????
@@ -16,5 +20,9 @@ import java.util.Map;
 public interface OrderService extends IService<OrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
+
+    SubmitOrderResponseVo submitOrder(OrderSubmitVo vo);
 }
 

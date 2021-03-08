@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.order.controller;
+package com.quguai.campustransaction.order.api;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quguai.campustransaction.order.entity.OrderItemEntity;
-import com.quguai.campustransaction.order.service.OrderItemService;
+import com.quguai.campustransaction.order.entity.OrderSettingEntity;
+import com.quguai.campustransaction.order.service.OrderSettingService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 
 
 
 /**
- * ????????Ϣ
+ * ??????????Ϣ
  *
  * @author liyang
  * @email liyang@gmail.com
  * @date 2021-01-20 21:49:03
  */
 @RestController
-@RequestMapping("order/orderitem")
-public class OrderItemController {
+@RequestMapping("order/ordersetting")
+public class OrderSettingController {
     @Autowired
-    private OrderItemService orderItemService;
+    private OrderSettingService orderSettingService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("order:orderitem:list")
+    //@RequiresPermissions("order:ordersetting:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = orderItemService.queryPage(params);
+        PageUtils page = orderSettingService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,20 +47,20 @@ public class OrderItemController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:orderitem:info")
+    //@RequiresPermissions("order:ordersetting:info")
     public R info(@PathVariable("id") Long id){
-		OrderItemEntity orderItem = orderItemService.getById(id);
+		OrderSettingEntity orderSetting = orderSettingService.getById(id);
 
-        return R.ok().put("orderItem", orderItem);
+        return R.ok().put("orderSetting", orderSetting);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("order:orderitem:save")
-    public R save(@RequestBody OrderItemEntity orderItem){
-		orderItemService.save(orderItem);
+    //@RequiresPermissions("order:ordersetting:save")
+    public R save(@RequestBody OrderSettingEntity orderSetting){
+		orderSettingService.save(orderSetting);
 
         return R.ok();
     }
@@ -69,9 +69,9 @@ public class OrderItemController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("order:orderitem:update")
-    public R update(@RequestBody OrderItemEntity orderItem){
-		orderItemService.updateById(orderItem);
+    //@RequiresPermissions("order:ordersetting:update")
+    public R update(@RequestBody OrderSettingEntity orderSetting){
+		orderSettingService.updateById(orderSetting);
 
         return R.ok();
     }
@@ -80,9 +80,9 @@ public class OrderItemController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:orderitem:delete")
+    //@RequiresPermissions("order:ordersetting:delete")
     public R delete(@RequestBody Long[] ids){
-		orderItemService.removeByIds(Arrays.asList(ids));
+		orderSettingService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

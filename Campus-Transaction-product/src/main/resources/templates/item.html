@@ -57,12 +57,9 @@
                 </li>
             </ul>
             <ul class="header_ul_right">
-                <li style="border: 0;">
-                    <a th:if="${session.loginUser != null}">欢迎，[[${session.loginUser.username}]]</a>
-                    <a th:if="${session.loginUser == null}" href="http://auth.campus.com/login.html">你好，请登录</a>
-                </li>
-                <li th:if="${session.loginUser == null}"><a href="http://auth.campus.com/register.html" style="color: red;">免费注册</a> |</li>
-                <li><a href="/static/item/javascript:;" class="aa">我的订单</a> |</li>
+                <th:block th:include="_fragment:: loginFragment"/>
+                <span>|</span>
+                <li><a href="http://order.campus.com/list.html" class="aa">我的订单</a> |</li>
                 <li class="jingdong"><a href="/static/item/javascript:;">我的京东</a><span
                         class="glyphicon glyphicon-menu-down">|</span>
                     <ol class="jingdong_ol">
@@ -667,9 +664,8 @@
 
                 <div class="box-btns clear">
                     <div class="box-btns-one">
-                        <input type="text" name="" id="" value="1"/>
+                        <input type="text" name="" id="num-input" value="1"/>
                         <div class="box-btns-one1">
-
                             <div>
                                 <button id="jia">
                                     +
@@ -684,8 +680,8 @@
                         </div>
                     </div>
                     <div class="box-btns-two">
-                        <a href="/static/item/../商品分类\index.html">
-                            立即预约
+                        <a href="#" id="addToCart" th:attr="skuId=${2}">
+                            加入购物车
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -1814,7 +1810,14 @@
 
 <script src="/static/item/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/item/js/js.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
+<script>
+    $('#addToCart').click(function () {
+        let query = $('#num-input').val();
+        let attr = $(this).attr('skuId');
+        location.href = "http://cart.campus.com/addToCart?skuId="+ attr +"&num=" + query;
+        alert(query, attr);
+        return false;
+    })
 </script>
 
 </html>

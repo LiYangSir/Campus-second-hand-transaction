@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Campus-Transaction-order
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.115:8848
+
+server:
+  port: 9000

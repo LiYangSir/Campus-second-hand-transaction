@@ -1,4 +1,4 @@
-package com.quguai.campustransaction.order.controller;
+package com.quguai.campustransaction.order.api;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quguai.campustransaction.order.entity.RefundInfoEntity;
-import com.quguai.campustransaction.order.service.RefundInfoService;
+import com.quguai.campustransaction.order.entity.OrderEntity;
+import com.quguai.campustransaction.order.service.OrderService;
 import com.quguai.common.utils.PageUtils;
 import com.quguai.common.utils.R;
 
 
 
 /**
- * ?˿???Ϣ
+ * ????
  *
  * @author liyang
  * @email liyang@gmail.com
  * @date 2021-01-20 21:49:03
  */
 @RestController
-@RequestMapping("order/refundinfo")
-public class RefundInfoController {
+@RequestMapping("order/order")
+public class OrderController {
     @Autowired
-    private RefundInfoService refundInfoService;
+    private OrderService orderService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("order:refundinfo:list")
+    //@RequiresPermissions("order:order:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = refundInfoService.queryPage(params);
+        PageUtils page = orderService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,20 +47,20 @@ public class RefundInfoController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:refundinfo:info")
+    //@RequiresPermissions("order:order:info")
     public R info(@PathVariable("id") Long id){
-		RefundInfoEntity refundInfo = refundInfoService.getById(id);
+		OrderEntity order = orderService.getById(id);
 
-        return R.ok().put("refundInfo", refundInfo);
+        return R.ok().put("order", order);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("order:refundinfo:save")
-    public R save(@RequestBody RefundInfoEntity refundInfo){
-		refundInfoService.save(refundInfo);
+    //@RequiresPermissions("order:order:save")
+    public R save(@RequestBody OrderEntity order){
+		orderService.save(order);
 
         return R.ok();
     }
@@ -69,9 +69,9 @@ public class RefundInfoController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("order:refundinfo:update")
-    public R update(@RequestBody RefundInfoEntity refundInfo){
-		refundInfoService.updateById(refundInfo);
+    //@RequiresPermissions("order:order:update")
+    public R update(@RequestBody OrderEntity order){
+		orderService.updateById(order);
 
         return R.ok();
     }
@@ -80,9 +80,9 @@ public class RefundInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:refundinfo:delete")
+    //@RequiresPermissions("order:order:delete")
     public R delete(@RequestBody Long[] ids){
-		refundInfoService.removeByIds(Arrays.asList(ids));
+		orderService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

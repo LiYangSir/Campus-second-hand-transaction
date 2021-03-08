@@ -6,13 +6,12 @@ import com.quguai.auth.config.OAuthWeiboProperties;
 import com.quguai.auth.feign.MemberFeignService;
 import com.quguai.auth.service.OAuthWeiboService;
 import com.quguai.auth.util.HttpUtils;
-import com.quguai.auth.vo.MemberResponseVo;
+import com.quguai.common.vo.MemberResponseVo;
 import com.quguai.auth.vo.SocialUser;
 import com.quguai.common.utils.R;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
